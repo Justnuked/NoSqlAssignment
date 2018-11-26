@@ -1,6 +1,9 @@
 const http = require('http');
 const express = require('express');
-const userRoutes = require('../src/api/user/userRoutes')
+const userRoutes = require('../src/api/user/userRoutes');
+const friendshipRoutes = require('../src/api/friendship/friendRoutes');
+const threadRoutes = require('../src/api/thread/threadRoutes');
+const commentRoutes = require('../src/api/comment/commentRoutes');
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -13,6 +16,9 @@ app.use('*', function(req, res, next){
 
 //set api routes
 app.use('/api/users', userRoutes);
+app.use('/api/friendship', friendshipRoutes);
+app.use('/api/thread', threadRoutes);
+app.use('/api/comment', commentRoutes);
 
 //Returns a 400 error for all non existing endpoints
 app.use('*', function(req, res, next){
