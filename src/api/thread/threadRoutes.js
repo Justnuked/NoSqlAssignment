@@ -36,4 +36,4 @@ routes.get('/:id', function(req,res){
 
 })
 
-module.export(routes);
+module.exports = routes;

@@ -4,6 +4,8 @@ const userRoutes = require('../src/api/user/userRoutes');
 const friendshipRoutes = require('../src/api/friendship/friendRoutes');
 const threadRoutes = require('../src/api/thread/threadRoutes');
 const commentRoutes = require('../src/api/comment/commentRoutes');
+const mongoose = require('mongoose');
+
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -12,6 +14,11 @@ app.use('*', function(req, res, next){
 	res.contentType('application/json');
 	next();
 });
+
+mongoose.Promise = global.Promise;
+
+mongoose.connect('mongodb://localhost/studdit');
+console.log(mongoose.connection.readyState);
 
 
 //set api routes
@@ -22,8 +29,9 @@ app.use('/api/comment', commentRoutes);
 
 //Returns a 400 error for all non existing endpoints
 app.use('*', function(req, res, next){
+	console.log(mongoose.connection.readyState);
 	res.status(400);
-	res.json({Error: 'No matching endpoint'});
+	res.json({Error: 'No matching endpoints'});
 	res.end();
 });
 
@@ -31,6 +39,7 @@ app.use('*', function(req, res, next){
 app.use('*', function(err, req, res, next){
 	console.log('Error: ' + err);
 	res.status(404).json({error: err}).end();
+
 });
 
 app.listen(port, function() {

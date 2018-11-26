@@ -16,4 +16,4 @@ routes.post('/:id', function(req,res){
 
 })
 
-module.exports(routes);
+module.exports = routes;
