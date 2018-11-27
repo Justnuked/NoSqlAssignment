@@ -1,3 +1,4 @@
+const Neode = require('neode');
 const http = require('http');
 const express = require('express');
 const userRoutes = require('../src/api/user/userRoutes');
@@ -6,8 +7,12 @@ const threadRoutes = require('../src/api/thread/threadRoutes');
 const commentRoutes = require('../src/api/comment/commentRoutes');
 const mongoose = require('mongoose');
 
+
 const app = express();
 const port = process.env.PORT || 3000;
+
+const neodeInstance = new Neode('bolt://localhost:7687',
+    'uwu', 'owo');
 
 //set json as content type
 app.use('*', function(req, res, next){
@@ -19,7 +24,6 @@ mongoose.Promise = global.Promise;
 
 mongoose.connect('mongodb://localhost/studdit');
 console.log(mongoose.connection.readyState);
-
 
 //set api routes
 app.use('/api/users', userRoutes);

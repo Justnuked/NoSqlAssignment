@@ -1,0 +1,13 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\api",
+    "\\api\\comment",
+    "\\api\\friendship",
+    "\\api\\thread",
+    "\\api\\user",
+    "\\models"
+  ],
+  "SelectedNode": "\\models\\userModel.js",
+  "PreviewInSolutionExplorer": false
+}
