@@ -20,10 +20,9 @@ app.use('*', function(req, res, next){
 	next();
 });
 
+//mongoose config
 mongoose.Promise = global.Promise;
-
 mongoose.connect('mongodb://localhost/studdit');
-console.log(mongoose.connection.readyState);
 
 //set api routes
 app.use('/api/users', userRoutes);
@@ -33,7 +32,6 @@ app.use('/api/comment', commentRoutes);
 
 //Returns a 400 error for all non existing endpoints
 app.use('*', function(req, res, next){
-	console.log(mongoose.connection.readyState);
 	res.status(400);
 	res.json({Error: 'No matching endpoints'});
 	res.end();
