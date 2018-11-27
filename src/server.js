@@ -6,7 +6,6 @@ const friendshipRoutes = require('../src/api/friendship/friendRoutes');
 const threadRoutes = require('../src/api/thread/threadRoutes');
 const commentRoutes = require('../src/api/comment/commentRoutes');
 const mongoose = require('mongoose');
-const neodriver = require('../src/api/neo4jdriver')
 
 
 const app = express();
