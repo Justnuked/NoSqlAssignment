@@ -1,5 +1,6 @@
 const express = require('express');
 const routes = express.Router();
+const userController = require('../../db/userController');
 
 //get users
 routes.get('/', function(req, res){
@@ -8,9 +9,7 @@ routes.get('/', function(req, res){
 })
 
 //add user
-routes.post('/', function(req,res){
-
-})
+routes.post('/', userController.AddUser);
 
 //change password
 routes.put('/:id', function(req,res){
