@@ -17,9 +17,7 @@ routes.put('/:id', function(req,res){
 })
 
 //delete user
-routes.delete('/:id', function(req,res){
-
-})
+routes.delete('/:id', userController.DeleteUser);
 
 //get user
 routes.get('/:id', function(req,res){

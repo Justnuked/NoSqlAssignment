@@ -6,7 +6,7 @@ const friendshipRoutes = require('../src/api/friendship/friendRoutes');
 const threadRoutes = require('../src/api/thread/threadRoutes');
 const commentRoutes = require('../src/api/comment/commentRoutes');
 const mongoose = require('mongoose');
-
+const bodyParser = require('body-parser');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -17,6 +17,10 @@ app.use('*', function(req, res, next){
 	res.contentType('application/json');
 	next();
 });
+
+app.use(bodyParser.urlencoded({'extended': 'true'}));
+app.use(bodyParser.json({limit: '100mb'}));
+app.use(bodyParser.json({type:'application/vnd.api+json'}));
 
 //mongoose config
 mongoose.Promise = global.Promise;

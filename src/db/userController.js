@@ -26,5 +26,42 @@ module.exports = {
                 }).catch(next);
             }
         }).catch(next);
+    },
+
+    DeleteUser(req,res,next){
+        var username = req.body.username;
+        var password = req.body.password;
+
+        const session = neo4j.session();
+
+        session.run(
+            `MATCH (u:User)
+            WHERE u.name = $name
+            RETURN u`,
+            {name: username}
+        ).then((result) => {
+
+            if(result.records.length > 0){
+                if(result.records[0]._fields[0].properties.password === password){
+                    session.run(
+                        `MATCH (u:User {name: $name})
+                        DELETE u`,
+                        {name: username}
+                    ).then(() =>{
+                        session.close();
+                        res.status(200);
+                        res.send({Message: "user has been deleted"});
+                    })
+                } else{
+                    session.close();
+                    res.status(401);
+                    res.send({Message: "Password did not match"});
+                }
+            } else{
+                session.close();
+                res.status(401);
+                res.send({Message: "User does not exist"});
+            }
+        }).catch(next)
     }
 }
