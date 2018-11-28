@@ -2,8 +2,8 @@ const neo4j = require('../api/neo4jdriver');
 
 module.exports = {
     AddUser(req,res,next){
-        var username = req.params.username;
-        var password = req.params.password;
+        var username = req.body.username;
+        var password = req.body.password;
 
         const session = neo4j.session();
 
