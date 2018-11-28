@@ -12,9 +12,7 @@ routes.get('/', function(req, res){
 routes.post('/', userController.AddUser);
 
 //change password
-routes.put('/:id', function(req,res){
-
-})
+routes.put('/:id', userController.ChangePassword);
 
 //delete user
 routes.delete('/:id', userController.DeleteUser);
