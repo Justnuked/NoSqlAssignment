@@ -4,7 +4,6 @@ module.exports = {
 
     // Add friendship between two students
     addFriend(req, res, next) {
-
         const student1 = req.body.username1;
         const student2 = req.body.username2;
         let session = neo4j.session();
@@ -33,7 +32,7 @@ module.exports = {
                                 { name1: student1, name2: student2 }
                             ).then(() => {
                                 session.close()
-                                res.status(200).send({ Message: 'Friendship added between'+student1+' and '+student2})
+                                res.status(200).send({ Message: 'Friendship added between '+student1+' and '+student2})
                             }).catch(next);
                         }
                         else {
@@ -45,4 +44,47 @@ module.exports = {
             })
             .catch(next);
     },
+
+    // Remove friendship between two students
+    removeFriend(req, res, next) {
+        const student1 = req.body.username1;
+        const student2 = req.body.username2;
+        let session = neo4j.session();
+
+        session.run(
+                `MATCH (x:User)
+            WHERE x.name= $name1 OR x.name = $name2
+            RETURN x`,
+                { name1: student1, name2: student2}
+            ).then((result) => {
+                if (result.records.length !== 2) {
+                    session.close()
+                    res.status(422).send({ Error: "One or both users do not exist." })
+                }
+                else {
+                    session.run( 
+                        `MATCH p = (x:User)-[r:IS_FRIEND]->(y:User)
+                    WHERE x.name= $name1 AND y.name= $name2 
+                    RETURN p`,
+                        { name1: student1, name2: student2 }
+                    ).then((result) => {
+                        if (result.records.length > 0) {
+                            session.run( 
+                                `MATCH (:User {name: $name1})-[r:IS_FRIEND]-(:User {name: $name2}) DELETE r`,
+                                { name1: student1, name2: student2 }
+                            ).then(() => {
+                                session.close()
+                                res.status(200).send({ Message: student1+' is no longer friends with '+student2 })
+                            }).catch(next);
+                        }
+                        else {
+                            session.close()
+                            res.status(200).send({ Message: student1+' was not friends with '+student2 })
+                        }
+                    }).catch(next);
+
+                }
+            })
+            .catch(next);
+    }
 }
