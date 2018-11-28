@@ -1,10 +1,9 @@
 const express = require('express');
 const routes = express.Router();
+const friendController = require('../../db/friendController');
 
 //new friendship
-routes.post('/', function(req,res){
-
-})
+routes.post('/', friendController.addFriend);
 
 routes.delete('/', function(req,res){
 

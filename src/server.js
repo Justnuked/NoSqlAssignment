@@ -11,8 +11,6 @@ const bodyParser = require('body-parser');
 const app = express();
 const port = process.env.PORT || 3000;
 
-const neodeInstance = new Neode('bolt://localhost:7687',
-    'uwu', 'owo');
 
 //set json as content type
 app.use('*', function(req, res, next){
