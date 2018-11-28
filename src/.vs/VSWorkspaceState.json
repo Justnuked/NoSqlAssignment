@@ -6,8 +6,9 @@
     "\\api\\friendship",
     "\\api\\thread",
     "\\api\\user",
+    "\\db",
     "\\models"
   ],
-  "SelectedNode": "\\models\\userModel.js",
+  "SelectedNode": "\\api\\user\\userRoutes.js",
   "PreviewInSolutionExplorer": false
 }
