@@ -114,4 +114,15 @@ module.exports = {
             })
         }).catch(next);
     },
+
+    getAllThreads(req, res, next) {
+        Thread.find()
+            //.populate('comments')
+            .then((result) => {
+                    //result.comments = result.comments.filter(comments => comments != null);
+                    //result.then(() => {
+                    res.status(200);
+                    res.send(result);
+            }).catch(next);
+    },
 }

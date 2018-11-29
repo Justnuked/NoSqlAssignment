@@ -22,9 +22,7 @@ routes.get('/threadsoffriends', function(req,res){
 })
 
 //get all threads 
-routes.get('/', function(req,res){
-
-})
+routes.get('/', threadController.getAllThreads);
 
 //get thread
 routes.get('/:id', threadController.findById);
