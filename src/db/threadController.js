@@ -82,5 +82,22 @@ module.exports = {
                     res.send({ Message: "Vote added to thread"});
                 }
             }).catch(next);
-    }
+    },
+
+    findById(req,res,next){
+        var threadId = req.params.id;
+        
+        Thread.findById(threadId)
+        .populate('comments')
+        .then((result) =>{
+            result.comments = result.comments.filter(comments => comments != null);
+            result.comments.forEach(element => {
+                console.log(element);
+            });
+            result.save().then(() =>{
+                res.status(200);
+                res.send(result);
+            })
+        }).catch(next);
+    },
 }

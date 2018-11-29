@@ -18,7 +18,6 @@ module.exports = {
                 res.status(400);
                 res.send({Message: "User not found"});
             } else{
-                console.log("Called2");
                 session.close();
                 if(commentOfComment === 'false'){
                     ThreadModel.findOne({_id: parentId})
@@ -34,19 +33,66 @@ module.exports = {
                             resultThread.comments.push(comment);
                             resultThread.save();
                             res.status(200);
-                            res.send({Message:"Comment added to thread: " + result.title});
+                            res.send({Message:"Comment added to thread"});
                         }
     
                     }).catch(next);
                 }
                 //comment of comment
                 else{
+                    CommentModel.findOne({_id: parentId})
+                    .then((resultComment) =>{
+                        if(resultComment === null){
+                            res.status(400);
+                            res.send({Message: "Comment not found"});
+                        }else{
+                            var comment = new CommentModel({username: user, content:content});
+                            comment.save();
     
+                            resultComment.comments.push(comment);
+                            resultComment.save();
+                            res.status(200);
+                            res.send({Message:"Comment added to comment"});
+                        }
+                    }).catch(next);
                 }
             }
             
 
-        }).catch(next);
-        }
+            }).catch(next);
+        },
 
+        deleteComment(req,res,next){
+            var commentId = req.params.id;
+            var parentId = req.body.parentId;
+            var commentOfComment = req.body.commentOfComment;
+
+            //delete comment ref in thread
+            if(commentOfComment === 'false'){
+                ThreadModel.findOne({_id: parentId})
+                .then((result) =>{
+                    result.comments.pull(commentId);
+                    result.save();
+                })
+                //delete comment ref in comment
+            }else{
+                CommentModel.findOne({_id: parentId})
+                .then((result) => {
+                    result.comments.pull(commentId);
+                    result.save
+                })
+            }
+
+            CommentModel.findOne({_id : commentId})
+            .then((result) =>{
+                if(result === null){
+                    res.status(400);
+                    res.send({Message: "Comment not found"});
+                }else{
+                    result.remove();
+                    res.status(200);
+                    res.send({Message: "Comment deleted"});
+                }
+            }).catch(next);
+        }
     }
