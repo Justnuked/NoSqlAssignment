@@ -5,39 +5,40 @@ var chould = chai.should();
 
 chai.use(chaiHttp);
 
-describe('friendship controller functonalities', function () {
+describe('comment controller functonalities', function () {
 
-	before(function (done) {
-		let user = {
-			username: 'OwO',
-			password: 'OwO'
-		}
-		chai.request(server)
-            .post('/api/comment/')
+    before(function (done) {
+        let user = {
+            username: 'UnU',
+            password: 'UnU'
+        }
+        chai.request(server)
+            .post('/api/users/')
             .send(user)
             .end(function (error, result) {
-            	result.should.have.status(200);
-            	done();
+                result.should.have.status(200);
+                done();
             });
-	});
+    });
 
-    //it('should add a comment',
-    //    function (done) {
-    //        let thread = {
-    //            username: "OwO",
-    //            title: "Hacker '4chan' caught red-handed!",
-    //            content: "Leaks of his whereabouts discovered on wikipedia"
-    //        }
-    //        chai.request(server)
-    //            .post('/api/comment/')
-    //            .send(thread)
-    //            .end(function (error, result) {
-    //                result.should.have.status(200);
-    //                result.should.be.json;
-    //                result.body.should.be.an('object');
-    //                done();
-    //            });
-    //    });
+    it('should not add a comment on a nonexistent thread',
+        function (done) {
+            let thread = {
+                username: "UnU",
+                parentId: "NotARealThread",
+                content: "haha yes",
+                commentOfComment: "false"
+            }
+            chai.request(server)
+                .post('/api/comments/')
+                .send(thread)
+                .end(function (error, result) {
+                    result.should.have.status(400);
+                    result.should.be.json;
+                    result.body.should.be.an('object');
+                    done();
+                });
+        });
 
     //it('should not add a thread if the user does not exist',
     //    function (done) {

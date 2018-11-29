@@ -89,6 +89,10 @@ module.exports = {
                     resultThread.votes = resultThread.votes.filter(x => x.username !== user);
 
                     vote.save();
+                    //resultThread.votes.find({ username: user })
+                    //    .then((x) => {
+                    //        console.log(x);
+                    //    })
                     resultThread.votes.push(vote);
                     resultThread.save();
                     res.status(200);
@@ -113,6 +117,7 @@ module.exports = {
         }).catch(next);
     },
 
+<<<<<<< HEAD
     deleteThread(req,res,next){
         var threadId = req.params.id;
 
@@ -132,4 +137,16 @@ module.exports = {
             });
         }
     }
+=======
+    getAllThreads(req, res, next) {
+        Thread.find()
+            //.populate('comments')
+            .then((result) => {
+                    //result.comments = result.comments.filter(comments => comments != null);
+                    //result.then(() => {
+                    res.status(200);
+                    res.send(result);
+            }).catch(next);
+    },
+>>>>>>> 70fb1b7632391a0f29ad6836ece1c8262a6f0358
 }
