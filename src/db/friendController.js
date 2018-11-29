@@ -19,7 +19,7 @@ module.exports = {
                 }
                 else {
                     session.run(
-                        `MATCH p = (x:User)-[r:IS_FRIEND]->(y:User)
+                        `MATCH p = (x:User)-[r:IS_FRIEND]-(y:User)
                     WHERE x.name= $name1 AND y.name= $name2 
                     RETURN p`,
                         { name1: student1, name2: student2 }
@@ -27,8 +27,7 @@ module.exports = {
                         if (result.records.length < 1) {
                             session.run(
                                 `MATCH (a:User {name: $name1}), (b:User{name: $name2})
-                            CREATE (a)-[:IS_FRIEND]->(b)
-                            CREATE (b)-[:IS_FRIEND]->(a)`,
+                            CREATE (a)-[:IS_FRIEND]->(b)`,
                                 { name1: student1, name2: student2 }
                             ).then(() => {
                                 session.close()
