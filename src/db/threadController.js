@@ -74,8 +74,11 @@ module.exports = {
                     res.send({ Message: "Thread not found" });
                 }
                 else {
-                    resultThread.votes.pull(username)
                     vote.save();
+                    //resultThread.votes.find({ username: user })
+                    //    .then((x) => {
+                    //        console.log(x);
+                    //    })
                     resultThread.votes.push(vote);
                     resultThread.save();
                     res.status(200);

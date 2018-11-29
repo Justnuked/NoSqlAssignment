@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\api",
+    "\\src\\api\\comment",
+    "\\src\\api\\friendship",
+    "\\src\\api\\thread",
+    "\\src\\api\\user",
+    "\\src\\db",
+    "\\src\\models",
+    "\\test"
+  ],
+  "SelectedNode": "\\src\\db\\threadController.js",
+  "PreviewInSolutionExplorer": false
+}
