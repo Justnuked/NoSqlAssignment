@@ -135,7 +135,8 @@ module.exports = {
                 res.send({Message: "Thread deleted"});
             });
         }
-    }
+    },
+
     getAllThreads(req, res, next) {
         Thread.find()
             //.populate('comments')
