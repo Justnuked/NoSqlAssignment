@@ -20,11 +20,9 @@ const ThreadSchema = new Schema ({
         type:Schema.Types.ObjectId,
         ref:'comment'
     }],
-    upvotes:[{
-        type:String,
-    }],
-    downvotes:[{
-        type:String,
+    votes: [{
+        type: Schema.Types.ObjectId,
+        ref: 'vote'
     }]
 });
 

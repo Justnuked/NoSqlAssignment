@@ -14,9 +14,7 @@ routes.delete('/:id', function(req,res){
 })
 
 //vote on thread
-routes.post('/:id/vote', function(req,res){
-
-})
+routes.post('/:id/vote', threadController.VoteOnThread)
 
 //get threads of friends or from friends and friends of friends
 routes.get('/threadsoffriends', function(req,res){

@@ -17,14 +17,11 @@ const CommentSchema = new Schema ({
         type:Schema.Types.ObjectId,
         ref:'comment'
     }],
-    upvotes:[{
-        type:String
-    }],
-    downvotes:[{
-        type:String
+    votes:[{
+        type: Schema.Types.ObjectId,
+        ref:'vote'
     }]
 });
 
 const CommentModel = mongoose.model('comment', CommentSchema);
-
 module.exports = CommentModel;

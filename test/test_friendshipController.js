@@ -8,7 +8,6 @@ chai.use(chaiHttp);
 describe('friendship controller functonalities', function () {
 
 	// Creating two users and then making them friends
-
     before(function (done) {
         let user1 = {
             username: 'OnO',
@@ -48,6 +47,23 @@ describe('friendship controller functonalities', function () {
                 .send(input)
                 .end(function (error, result) {
                     result.should.have.status(200);
+                    result.should.be.json;
+                    result.body.should.be.an('object');
+                    done();
+                });
+        });
+
+    it('should not add a relationship if one user does not exist',
+        function (done) {
+            let input = {
+                username1: "OnO",
+                username2: "LongUsernamesAreSlightlyFunny"
+            }
+            chai.request(server)
+                .post('/api/friendship/')
+                .send(input)
+                .end(function (error, result) {
+                    result.should.have.status(422);
                     result.should.be.json;
                     result.body.should.be.an('object');
                     done();

@@ -8,7 +8,6 @@ chai.use(chaiHttp);
 describe('thread controller functonalities', function () {
 
     // Creating a user as OP for the thread
-
     before(function (done) {
         let user1 = {
             username: 'OnO',
