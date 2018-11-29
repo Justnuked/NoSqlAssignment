@@ -29,8 +29,6 @@ routes.get('/', function(req,res){
 })
 
 //get thread
-routes.get('/:id', function(req,res){
-
-})
+routes.get('/:id', threadController.findById);
 
 module.exports = routes;

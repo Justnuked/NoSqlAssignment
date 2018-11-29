@@ -6,9 +6,7 @@ const CommentController = require('../../db/commentController');
 routes.post('/', CommentController.addComment);
 
 //delete comment
-routes.delete('/:id', function(req,res){
-
-})
+routes.delete('/:id', CommentController.deleteComment);
 
 //vote on comment
 routes.post('/:id', function(req,res){
