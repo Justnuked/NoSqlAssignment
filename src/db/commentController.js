@@ -18,12 +18,12 @@ module.exports = {
                 res.status(400);
                 res.send({Message: "User not found"});
             } else{
+                console.log("Called2");
                 session.close();
-                if(!commentOfComment){
-
+                if(commentOfComment === 'false'){
                     ThreadModel.findOne({_id: parentId})
-                    .then((result) =>{
-                        if(result === null){
+                    .then((resultThread) =>{
+                        if(resultThread === null){
                             res.status(400);
                             res.send({Message: "Thread not found"});
                         }
@@ -31,8 +31,8 @@ module.exports = {
                             var comment = new CommentModel({username: user, content:content});
                             comment.save();
     
-                            result.comments.push(comment);
-                            result.save();
+                            resultThread.comments.push(comment);
+                            resultThread.save();
                             res.status(200);
                             res.send({Message:"Comment added to thread: " + result.title});
                         }
