@@ -62,7 +62,7 @@ module.exports = {
                 }
                 else {
                     session.run( 
-                        `MATCH p = (x:User)-[r:IS_FRIEND]->(y:User)
+                        `MATCH p = (x:User)-[r:IS_FRIEND]-(y:User)
                     WHERE x.name= $name1 AND y.name= $name2 
                     RETURN p`,
                         { name1: student1, name2: student2 }
