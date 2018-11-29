@@ -26,6 +26,32 @@ const ThreadSchema = new Schema ({
     }]
 });
 
+ThreadSchema.pre('remove', function(next){
+    const comments = mongoose.model('comment');
+
+    comments.remove({_id: {$in: this.comments}})
+    .then(() =>{
+        const votes = mongoose.model('vote');
+
+        votes.remove({_id: {$in: this.votes}})
+        .then(() =>{
+            next();
+        })
+    })
+});
+
+ThreadSchema.virtual('getUpvotes').get(function(){
+    var temp = this.votes.filter(vote => vote.votetype === '2');
+
+    return temp.length;
+});
+
+ThreadSchema.virtual('getDownvotes').get(function(){
+    var temp = this.votes.filter(vote => vote.votetype === '1');
+
+    return temp.length
+});
+
 const Thread = mongoose.model('thread', ThreadSchema);
 
 module.exports = Thread;

@@ -99,15 +99,37 @@ module.exports = {
 
     findById(req,res,next){
         var threadId = req.params.id;
-        
+
         Thread.findById(threadId)
         .populate('comments')
         .then((result) =>{
+            console.log(result.getUpvotes + "Upvotes");
+            console.log(result.getDownvotes + "Downvotes");
             result.comments = result.comments.filter(comments => comments != null);
             result.save().then(() =>{
                 res.status(200);
                 res.send(result);
-            })
+            });
         }).catch(next);
     },
+
+    deleteThread(req,res,next){
+        var threadId = req.params.id;
+
+        if(threadId === null){
+            res.status(400);
+            res.send({Message: "Thread not found"});
+        }else{
+            Thread.findById({_id: threadId})
+            .then((result) =>{
+                if(result === null){
+                    res.status(400);
+                    res.send({Message: "Thread not found"});
+                }
+                result.remove();
+                res.status(200);
+                res.send({Message: "Thread deleted"});
+            });
+        }
+    }
 }

@@ -9,10 +9,7 @@ routes.post('/', threadController.createThread);
 routes.put('/:id', threadController.updateThread);
 
 //delete thread
-routes.delete('/:id', function(req,res){
-
-})
-
+routes.delete('/:id', threadController.deleteThread);
 //vote on thread
 routes.post('/:id/vote', threadController.VoteOnThread)
 
