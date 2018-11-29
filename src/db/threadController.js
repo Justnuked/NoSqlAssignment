@@ -117,7 +117,6 @@ module.exports = {
         }).catch(next);
     },
 
-<<<<<<< HEAD
     deleteThread(req,res,next){
         var threadId = req.params.id;
 
@@ -137,7 +136,6 @@ module.exports = {
             });
         }
     }
-=======
     getAllThreads(req, res, next) {
         Thread.find()
             //.populate('comments')
@@ -148,5 +146,4 @@ module.exports = {
                     res.send(result);
             }).catch(next);
     },
->>>>>>> 70fb1b7632391a0f29ad6836ece1c8262a6f0358
 }
