@@ -15,7 +15,7 @@ module.exports = {
                 { name1: student1, name2: student2 }
             ).then((result) => {
                 if (result.records.length !== 2) {
-                    res.status(422).send({ Error: "One or both students do not exist" })
+                    res.status(422).send({ Error: "One or both students do not exist, or they are equal." })
                 }
                 else {
                     session.run(
@@ -58,7 +58,7 @@ module.exports = {
             ).then((result) => {
                 if (result.records.length !== 2) {
                     session.close()
-                    res.status(422).send({ Error: "One or both users do not exist." })
+                    res.status(422).send({ Error: "One or both users do not exist, or they are both equal." })
                 }
                 else {
                     session.run( 
