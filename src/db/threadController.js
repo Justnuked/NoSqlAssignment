@@ -2,7 +2,6 @@ const neo4j = require('../api/neo4jdriver');
 const Thread = require('../models/threadModel');
 const VoteModel = require('../models/voteModel');
 
-
 module.exports = {
     createThread(req,res,next){
         var title = req.body.title;
@@ -68,13 +67,27 @@ module.exports = {
         var vote = VoteModel({ username: user, votetype: vote })
 
         Thread.findOne({ _id: threadId })
+        .populate('votes')
             .then((resultThread) => {
                 if (resultThread === null) {
                     res.status(400);
                     res.send({ Message: "Thread not found" });
                 }
                 else {
-                    resultThread.votes.pull(username)
+                    console.log(resultThread.votes);
+
+                    //get the previous vote of the user
+                    var temp = resultThread.votes.filter(x => x.username === user);
+                    console.log(temp.length);
+                    if(temp.length > 0){
+                        VoteModel.findOneAndRemove({_id: temp[0]._id})
+                        .then(()=>{
+                        })
+                    }
+
+                    //remove the previous vote out of the array if any
+                    resultThread.votes = resultThread.votes.filter(x => x.username !== user);
+
                     vote.save();
                     resultThread.votes.push(vote);
                     resultThread.save();
@@ -91,9 +104,6 @@ module.exports = {
         .populate('comments')
         .then((result) =>{
             result.comments = result.comments.filter(comments => comments != null);
-            result.comments.forEach(element => {
-                console.log(element);
-            });
             result.save().then(() =>{
                 res.status(200);
                 res.send(result);
