@@ -21,6 +21,10 @@ routes.get('/threadsoffriends', function(req,res){
 //get all threads 
 routes.get('/', threadController.getAllThreads);
 
+//get all threads sorted by upvotes
+routes.get('/upvote', threadController.getAllThreadsUpvoteSorting);
+routes.get('/score', threadController.getAllThreadsScoreSorting);
+
 //get thread
 routes.get('/:id', threadController.findById);
 

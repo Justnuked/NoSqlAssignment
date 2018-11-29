@@ -1,6 +1,7 @@
 const neo4j = require('../api/neo4jdriver');
 const CommentModel = require('../models/commentModel');
 const ThreadModel = require('../models/threadModel');
+const VoteModel = require('../models/voteModel');
 
 module.exports = {
     addComment(req,res,next){
@@ -57,8 +58,6 @@ module.exports = {
                     }).catch(next);
                 }
             }
-            
-
             }).catch(next);
         },
 
@@ -94,5 +93,52 @@ module.exports = {
                     res.send({Message: "Comment deleted"});
                 }
             }).catch(next);
-        }
+        },
+        voteOnComment(req, res, next) {
+            var user = req.body.username;
+            var commentId = req.params.id;
+            var vote = req.body.votetype;
+    
+            // Check if the user is existent
+            const session = neo4j.session();
+            session.run(`MATCH (u:User) WHERE u.name = $name RETURN u`,
+                    { name: user })
+                .then((result) => {
+                    if (result.records.length === 0) {
+                        session.close();
+                        res.status(400);
+                        res.send({ Message: "User not found" });
+                    }
+                }).catch(next);
+    
+            // 0 = No vote, 1 = Downvote, 2 = Upvote
+            var vote = VoteModel({ username: user, votetype: vote })
+    
+            CommentModel.findOne({ _id: commentId })
+            .populate('votes')
+                .then((resultComment) => {
+                    if (resultComment === null) {
+                        res.status(400);
+                        res.send({ Message: "Comment not found" });
+                    }
+                    else {
+                        //get the previous vote of the user
+                        var temp = resultComment.votes.filter(x => x.username === user);
+                        if(temp.length > 0){
+                            VoteModel.findOneAndRemove({_id: temp[0]._id})
+                            .then(()=>{
+                            })
+                        }
+    
+                        //remove the previous vote out of the array if any
+                        resultComment.votes = resultComment.votes.filter(x => x.username !== user);
+    
+                        vote.save();
+                        resultComment.votes.push(vote);
+                        resultComment.save();
+                        res.status(200);
+                        res.send({ Message: "Vote added to comment"});
+                    }
+                }).catch(next);
+        },
     }

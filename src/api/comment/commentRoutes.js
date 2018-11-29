@@ -9,8 +9,6 @@ routes.post('/', CommentController.addComment);
 routes.delete('/:id', CommentController.deleteComment);
 
 //vote on comment
-routes.post('/:id', function(req,res){
-
-})
+routes.post('/:id', CommentController.voteOnComment);
 
 module.exports = routes;

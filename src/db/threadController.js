@@ -2,6 +2,54 @@ const neo4j = require('../api/neo4jdriver');
 const Thread = require('../models/threadModel');
 const VoteModel = require('../models/voteModel');
 
+function getAmountOfUpvotes(thread){
+    var temp = 0;
+
+    thread.votes.forEach(element => {
+        if(element.votetype === '2'){
+            console.log(element.votetype);
+            temp++;
+        }
+    })
+
+    return temp;
+}
+
+function getAmountOfDownvotes(thread){
+    var temp = 0;
+
+    thread.votes.forEach(element => {
+        if(element.votetype === '1'){
+            console.log(element.votetype);
+            temp++;
+        }
+    })
+
+    return temp;
+}
+
+function compareUpvotes(a, b){
+    if(getAmountOfUpvotes(a) > getAmountOfUpvotes(b)){
+        return -1.
+    }
+    if(getAmountOfUpvotes(a) < getAmountOfUpvotes(b)){
+        return 1;
+    }
+
+    return 0;
+}
+
+function compareUpvotesVsDownvotes(a,b){
+    if((getAmountOfUpvotes(a) - getAmountOfDownvotes(a))> (getAmountOfUpvotes(b) - getAmountOfDownvotes(b))){
+        return -1
+    }
+    if((getAmountOfUpvotes(a) - getAmountOfDownvotes(a))< (getAmountOfUpvotes(b) - getAmountOfDownvotes(b))){
+        return 1
+    }
+
+    return 0;
+}
+
 module.exports = {
     createThread(req,res,next){
         var title = req.body.title;
@@ -89,10 +137,6 @@ module.exports = {
                     resultThread.votes = resultThread.votes.filter(x => x.username !== user);
 
                     vote.save();
-                    //resultThread.votes.find({ username: user })
-                    //    .then((x) => {
-                    //        console.log(x);
-                    //    })
                     resultThread.votes.push(vote);
                     resultThread.save();
                     res.status(200);
@@ -106,18 +150,25 @@ module.exports = {
 
         Thread.findById(threadId)
         .populate('comments')
+        .populate('votes')
         .then((result) =>{
-            console.log(result.getUpvotes + "Upvotes");
-            console.log(result.getDownvotes + "Downvotes");
             result.comments = result.comments.filter(comments => comments != null);
             result.save().then(() =>{
+                var totalUpvotes = result.votes.filter(vote => vote.votetype == 2).length;
+                var totalDownvotes = result.votes.filter(vote => vote.votetype == 1).length;
+
+                var json = result.toObject();
+                console.log(json);
+
+                json.totalUpvotes = totalUpvotes;
+                json.totalDownvotes = totalDownvotes;
+
                 res.status(200);
-                res.send(result);
+                res.send(json);
             });
         }).catch(next);
     },
 
-<<<<<<< HEAD
     deleteThread(req,res,next){
         var threadId = req.params.id;
 
@@ -136,17 +187,39 @@ module.exports = {
                 res.send({Message: "Thread deleted"});
             });
         }
-    }
-=======
+    },
     getAllThreads(req, res, next) {
         Thread.find()
-            //.populate('comments')
+        .populate('votes')
             .then((result) => {
-                    //result.comments = result.comments.filter(comments => comments != null);
-                    //result.then(() => {
                     res.status(200);
                     res.send(result);
             }).catch(next);
     },
->>>>>>> 70fb1b7632391a0f29ad6836ece1c8262a6f0358
+
+    getAllThreadsUpvoteSorting(req,res,next){
+        Thread.find()
+        .populate('votes')
+            .then((result) => {
+
+                result.sort(compareUpvotes);
+
+                    res.status(200);
+                    res.send(result);
+            }).catch(next);
+    },
+
+    getAllThreadsScoreSorting(req,res,next){
+        Thread.find()
+        .populate('votes')
+            .then((result) => {
+
+                result.sort(compareUpvotesVsDownvotes);
+
+                    res.status(200);
+                    res.send(result);
+            }).catch(next);
+    }
+
+
 }
