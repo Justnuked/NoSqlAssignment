@@ -1,10 +1,9 @@
 const express = require('express');
 const routes = express.Router();
+const CommentController = require('../../db/commentController');
 
 //post new comment
-routes.post('/', function(req,res){
-
-})
+routes.post('/', CommentController.addComment);
 
 //delete comment
 routes.delete('/:id', function(req,res){

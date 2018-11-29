@@ -5,25 +5,26 @@ const Schema = mongoose.Schema;
 
 const ThreadSchema = new Schema ({
     username:{
-        type:Schema.Types.ObjectId,
-        ref:'user'
+        type:String,
+        required:[true, 'Username is required']
     },
     title:{
         type:String,
-        required:true
+        required: [true, 'Title is required']
     },
     content:{
         type:String,
-        required:true
+        required: [true, 'Content is required']
     },
-    Comments:[CommentSchema],
-    upvotes:[{
+    comments:[{
         type:Schema.Types.ObjectId,
-        ref:'user'
+        ref:'comment'
+    }],
+    upvotes:[{
+        type:String,
     }],
     downvotes:[{
-        type:Schema.Types.ObjectId,
-        ref:'user'
+        type:String,
     }]
 });
 

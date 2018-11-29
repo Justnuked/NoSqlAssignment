@@ -1,15 +1,12 @@
 const express = require('express');
+const threadController = require('../../db/threadController');
 const routes = express.Router();
 
 //add new thread
-routes.post('/', function(req,res){
-
-})
+routes.post('/', threadController.createThread);
 
 //update thread
-routes.put('/:id', function(req,res){
-
-})
+routes.put('/:id', threadController.updateThread);
 
 //delete thread
 routes.delete('/:id', function(req,res){

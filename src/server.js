@@ -24,7 +24,8 @@ app.use(bodyParser.json({type:'application/vnd.api+json'}));
 
 //mongoose config
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/studdit');
+mongoose.set('useCreateIndex', true);
+mongoose.connect('mongodb://localhost/studdit', {useNewUrlParser: true});
 
 //set api routes
 app.use('/api/users', userRoutes);
