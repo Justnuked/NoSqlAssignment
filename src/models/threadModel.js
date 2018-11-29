@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const CommentSchema = require('./commentModel');
+
 const Schema = mongoose.Schema;
 
 
@@ -20,9 +20,9 @@ const ThreadSchema = new Schema ({
         type:Schema.Types.ObjectId,
         ref:'comment'
     }],
-    votes: [{
+    votes:[{
         type: Schema.Types.ObjectId,
-        ref: 'vote'
+        ref:'vote'
     }]
 });
 
