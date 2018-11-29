@@ -188,6 +188,10 @@ module.exports = {
             });
         }
     },
+<<<<<<< HEAD
+=======
+
+>>>>>>> d9e43f82249592675bc3998310b6726afe9116a0
     getAllThreads(req, res, next) {
         Thread.find()
         .populate('votes')
@@ -208,6 +212,7 @@ module.exports = {
                     res.send(result);
             }).catch(next);
     },
+<<<<<<< HEAD
 
     getAllThreadsScoreSorting(req,res,next){
         Thread.find()
@@ -222,4 +227,6 @@ module.exports = {
     }
 
 
+=======
+>>>>>>> d9e43f82249592675bc3998310b6726afe9116a0
 }
