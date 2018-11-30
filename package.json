@@ -2,9 +2,10 @@
   "name": "nosqlopdracht",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./src/server.js",
   "scripts": {
-    "test": "./node_modules/.bin/mocha --reporter spec"
+    "test": "./node_modules/.bin/mocha --reporter spec",
+    "start": "node server.js --prefix ./src/"
   },
   "author": "",
   "license": "ISC",

@@ -1,10 +1,10 @@
 const Neode = require('neode');
 const http = require('http');
 const express = require('express');
-const userRoutes = require('../src/api/user/userRoutes');
-const friendshipRoutes = require('../src/api/friendship/friendRoutes');
-const threadRoutes = require('../src/api/thread/threadRoutes');
-const commentRoutes = require('../src/api/comment/commentRoutes');
+const userRoutes = require('./src/api/user/userRoutes');
+const friendshipRoutes = require('./src/api/friendship/friendRoutes');
+const threadRoutes = require('./src/api/thread/threadRoutes');
+const commentRoutes = require('./src/api/comment/commentRoutes');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
